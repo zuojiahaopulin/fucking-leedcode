@@ -1,0 +1,76 @@
+"""
+    Python版回溯法求解N皇后问题。
+    主程序的循环逻辑判断部分还有很大优化必要。
+"""
+
+
+def suit(x, y):  # 判断第x行、第y列能否放皇后
+    if(x == 0):  # 第一行一定可以
+        return True
+    i = 1
+    while(x - i >= 0):  # 循环测试前x行
+        if(a[x - i] == y or a[x - i] - y == i or a[x - i] - y == -i):
+            return False
+        i += 1
+    return True
+
+
+def start():  # 主程序
+    count = 0  # 计数解的个数
+    global a  # 便于函数访问
+    n = int(input("皇后数："))
+    print_map = input("需要打印每个布局吗？（Y/N）：")
+    a = [0 for i in range(n)]  # 采用一维数组，数组值即此行皇后位置
+    i = 0
+    while(i < n):  # 以行为大循环，回溯的关键
+        j = a[i]  # 回溯时不从第一列开始
+        while(j < n):  # 主要的小循环
+            if(suit(i, j)):
+                a[i] = j
+                i += 1
+                break
+            j += 1
+        if(j == n):  # 如果此列不能放置皇后，回溯
+            a[i] = 0
+            i -= 1
+            if(a[i] == n - 1):  # 上一行皇后放在最后一列则不能直接往后移动一列，需要再次回溯
+                if(i == 0):  # 回溯到第一列也不存在，则没有更多解
+                    break
+                else:  # 再次回溯
+                    a[i] = 0
+                    i -= 1
+                    a[i] += 1
+            else:  # 上一行皇后向后移动一列
+                a[i] += 1
+        if(i == n):  # 最后一行找到放置皇后位置，则为一种解
+            count += 1
+            if(print_map == 'Y'):
+                print('第', count, '种解：')
+                print_m(n)
+            i -= 1  # 继续寻找下一个解
+            if(a[i] == n - 1):  # 上一行皇后放在最后一列则不能直接往后移动一列，需要再次回溯
+                a[i] = 0
+                i -= 1
+                a[i] += 1
+            else:
+                a[i] += 1
+    print(n, '皇后问题，共', count, '种解')
+
+
+def print_m(n):  # 打印出放置皇后的布局
+    for i in range(n):
+        j = 0
+        while(j < a[i]):
+            print('O', end=' ')
+            j += 1
+        print('X', end=' ')
+        j += 1
+        while(j < n):
+            print('O', end=' ')
+            j += 1
+        print()
+    print('------------------------------')
+
+if __name__ == '__main__':
+    while(1):
+        start()
