@@ -12,8 +12,7 @@ public class Solution {
     private boolean isValid(String s, int i, int j, int k){
          
         if ( k < s.length() - 4 || k > s.length() - 2)
-            return false;
-         
+            return false; 
         else if ( isRange(s, 0, i + 1)
                     && isRange(s, i + 1, j + 1)
                     && isRange(s, j + 1, k + 1)
