@@ -1,0 +1,45 @@
+/*  Lowest Common Ancestor
+    Given the root and two nodes in a Binary Tree. Find the lowest common ancestor(LCA) of the two nodes.
+    The lowest common ancestor is the node with largest depth which is the ancestor of both nodes.
+	Assume two nodes are exist in tree.   */
+    /** 思路：遇到目标值就向上一层返回，通过判断左右子树是不是全为空来判断是不是最近公共祖先 **/
+/**
+ * Definition of TreeNode:
+ * public class TreeNode {
+ *     public int val;
+ *     public TreeNode left, right;
+ *     public TreeNode(int val) {
+ *         this.val = val;
+ *         this.left = this.right = null;
+ *     }
+ * }
+ */
+public class Solution {
+    /**
+     * @param root: The root of the binary search tree.
+     * @param A and B: two nodes in a Binary.
+     * @return: Return the least common ancestor(LCA) of the two nodes.
+     */
+    public TreeNode lowestCommonAncestor(TreeNode root, TreeNode A, TreeNode B) {
+        // write your code here
+        return dfs(root, A, B);
+    }
+    public TreeNode dfs(TreeNode curtroot, TreeNode A, TreeNode B) {
+        if (curtroot == null || curtroot == A || curtroot == B) {
+            return curtroot;
+        }
+        
+        TreeNode left = dfs(curtroot.left, A, B);
+        TreeNode right = dfs(curtroot.right, A, B);
+        if (left != null && right != null) {
+            return curtroot;
+        }
+        if (left != null) {
+            return left;
+        }
+        if (right != null) {
+            return right;
+        }
+        return null;
+    }
+}
