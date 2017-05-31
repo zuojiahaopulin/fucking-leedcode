@@ -35,20 +35,23 @@ public class Solution {
         int i, j;
         StringBuilder sb = new StringBuilder();
         
+        //遍历行
         for (i = 0; i < nRows; i++){
             
             j = i;
+            //遍历列
             while (j < s.length()){
             
+                //固定添加，l1规则
                 sb.append(s.charAt(j));
-                
+                //中间行的额外添加，l2规则
                 if (i > 0 && i < nRows - 1){
                     if (j + 2 * (nRows - i - 1) < s.length()){
-                
+                          //l2规则
                 		  sb.append(s.charAt(j + 2 * (nRows - i - 1)));
                     }
             	  }
-            	
+                //l1规则
                 j += 2 * nRows - 2;
             }
         }
