@@ -1,0 +1,37 @@
+    /*
+    Replace Spaces
+
+    请实现一个函数，将一个字符串中的空格替换成“%20”。例如，当字符串为We Are Happy.则经过替换之后的字符串为We%20Are%20Happy。
+     */
+     
+     /*
+     Key Point
+     若顺序遍历替换会出现同一字母移动多次的冗余，复杂度为O（N^2）
+     故逆序遍历，最后截短
+     */
+     
+     public String replaceSpace(StringBuffer str){
+
+        if (str == null)
+            return null;
+        //空格=%20，最多三倍空间
+        char[] charArray = new char[3 * str.length()];
+        int j = charArray.length - 1;
+        //逆序遍历
+        for (int i = str.length() - 1; i >= 0; i--){
+            //非空格
+            if (str.charAt(i) != ' '){
+                charArray[j--] = str.charAt(i);
+            }
+            //空格
+            else {
+                charArray[j--] = '0';
+                charArray[j--] = '2';
+                charArray[j--] = '%';
+            }
+        }
+
+        String result = String.valueOf(charArray);
+        //截短头部
+        return result.substring(j + 1);
+    }
