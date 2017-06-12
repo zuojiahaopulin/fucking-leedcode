@@ -1,0 +1,48 @@
+    /*
+    longest-consecutive-sequence
+
+    Given an unsorted array of integers, find the length of the longest consecutive elements sequence.
+    For example,
+    Given[100, 4, 200, 1, 3, 2],
+    The longest consecutive elements sequence is[1, 2, 3, 4]. Return its length:4.
+    Your algorithm should run in O(n) complexity.
+     */
+
+    /*
+	1. 如果先进行排序后DP，至少需要O(nlog(n))
+	2. 使用Set集合实现，相邻遍历到后删除，避免重复遍历
+    */
+
+    private int longestConsecutiveMax = Integer.MIN_VALUE;
+    public int longestConsecutive(int[] num) {
+
+        Set<Integer> set = new HashSet<>();
+	//填入Set
+        for (int i : num) {
+            set.add(i);
+        }
+
+        for (int i : num) {
+            int left = i - 1;
+            int right = i + 1;
+            int count = 1;
+	    //向左扩充
+            while (set.contains(left)) {
+                count++;
+                set.remove(left);
+                left--;
+            }
+	    //向右扩充
+            while (set.contains(right)) {
+                count++;
+                set.remove(right);
+                right++;
+            }
+            set.remove(i);
+	    //更新全局
+            if (count > longestConsecutiveMax)
+                longestConsecutiveMax = count;
+        }
+
+        return longestConsecutiveMax;
+    }
